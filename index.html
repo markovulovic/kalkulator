@@ -43,6 +43,17 @@
         <button onclick="calculateMetalPrice()">Izračunaj</button>
         <p id="metal_result"></p>
     </div>
+    
+    <div class="container">
+        <h3>Izračunaj cenu po kg profila</h3>
+        <input type="number" id="metal2_width" placeholder="Širina (mm)">
+        <input type="number" id="metal2_height" placeholder="Visina (mm)">
+        <input type="number" id="metal2_thickness" placeholder="Debljina (mm)">
+        <input type="number" id="metal2_length" placeholder="Dužina (mm)">
+        <input type="number" id="metal_total_price" placeholder="Ukupna cena profila (RSD)">
+        <button onclick="calculateMetalPricePerKg()">Izračunaj</button>
+        <p id="metal_kg_result"></p>
+    </div>
 
     <script>
         function calculateWoodPricePerCubicMeter() {
@@ -76,6 +87,19 @@
             let weight = volume * density;
             let price = weight * pricePerKg;
             document.getElementById("metal_result").innerText = "Cena profila: " + price.toFixed(2) + " RSD";
+        }
+        
+        function calculateMetalPricePerKg() {
+            let w = document.getElementById("metal2_width").value / 1000;
+            let h = document.getElementById("metal2_height").value / 1000;
+            let t = document.getElementById("metal2_thickness").value / 1000;
+            let l = document.getElementById("metal2_length").value / 1000;
+            let totalPrice = document.getElementById("metal_total_price").value;
+            let density = 7850; // kg/m³
+            let volume = ((w * h) - ((w - 2*t) * (h - 2*t))) * l;
+            let weight = volume * density;
+            let pricePerKg = totalPrice / weight;
+            document.getElementById("metal_kg_result").innerText = "Cena po kg: " + pricePerKg.toFixed(2) + " RSD/kg";
         }
     </script>
 </body>
