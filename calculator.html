@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Građe</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 400px; margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; }
+        input, button { width: 100%; margin-top: 5px; padding: 8px; }
+    </style>
+</head>
+<body>
+    <h2>Kalkulator Drvene i Metalne Građe</h2>
+    
+    <div class="container">
+        <h3>Cena drveta po kubnom metru</h3>
+        <input type="number" id="wood_width" placeholder="Širina (mm)">
+        <input type="number" id="wood_height" placeholder="Visina (mm)">
+        <input type="number" id="wood_length" placeholder="Dužina (mm)">
+        <input type="number" id="wood_price" placeholder="Cena komada (RSD)">
+        <button onclick="calculateWoodPricePerCubicMeter()">Izračunaj</button>
+        <p id="wood_result"></p>
+    </div>
+    
+    <div class="container">
+        <h3>Cena komada drveta</h3>
+        <input type="number" id="cubic_price" placeholder="Cena po m³ (RSD)">
+        <input type="number" id="wood2_width" placeholder="Širina (mm)">
+        <input type="number" id="wood2_height" placeholder="Visina (mm)">
+        <input type="number" id="wood2_length" placeholder="Dužina (mm)">
+        <button onclick="calculateWoodPiecePrice()">Izračunaj</button>
+        <p id="wood_piece_result"></p>
+    </div>
+    
+    <div class="container">
+        <h3>Cena metalnog profila</h3>
+        <input type="number" id="metal_width" placeholder="Širina (mm)">
+        <input type="number" id="metal_height" placeholder="Visina (mm)">
+        <input type="number" id="metal_thickness" placeholder="Debljina (mm)">
+        <input type="number" id="metal_length" placeholder="Dužina (mm)">
+        <input type="number" id="metal_price_kg" placeholder="Cena po kg (RSD)">
+        <button onclick="calculateMetalPrice()">Izračunaj</button>
+        <p id="metal_result"></p>
+    </div>
+
+    <script>
+        function calculateWoodPricePerCubicMeter() {
+            let w = document.getElementById("wood_width").value / 1000;
+            let h = document.getElementById("wood_height").value / 1000;
+            let l = document.getElementById("wood_length").value / 1000;
+            let price = document.getElementById("wood_price").value;
+            let volume = w * h * l;
+            let pricePerCubicMeter = price / volume;
+            document.getElementById("wood_result").innerText = "Cena po m³: " + pricePerCubicMeter.toFixed(2) + " RSD";
+        }
+        
+        function calculateWoodPiecePrice() {
+            let pricePerCubicMeter = document.getElementById("cubic_price").value;
+            let w = document.getElementById("wood2_width").value / 1000;
+            let h = document.getElementById("wood2_height").value / 1000;
+            let l = document.getElementById("wood2_length").value / 1000;
+            let volume = w * h * l;
+            let piecePrice = pricePerCubicMeter * volume;
+            document.getElementById("wood_piece_result").innerText = "Cena komada: " + piecePrice.toFixed(2) + " RSD";
+        }
+        
+        function calculateMetalPrice() {
+            let w = document.getElementById("metal_width").value / 1000;
+            let h = document.getElementById("metal_height").value / 1000;
+            let t = document.getElementById("metal_thickness").value / 1000;
+            let l = document.getElementById("metal_length").value / 1000;
+            let pricePerKg = document.getElementById("metal_price_kg").value;
+            let density = 7850; // kg/m³
+            let volume = ((w * h) - ((w - 2*t) * (h - 2*t))) * l;
+            let weight = volume * density;
+            let price = weight * pricePerKg;
+            document.getElementById("metal_result").innerText = "Cena profila: " + price.toFixed(2) + " RSD";
+        }
+    </script>
+</body>
+</html>
